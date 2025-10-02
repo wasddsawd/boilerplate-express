@@ -3,7 +3,17 @@
  * the verification process may break
  * ***************************************************/
  
-// const bGround = require('fcc-express-bground');  // removido
+let bGround;
+try {
+  bGround = require('fcc-express-bground');
+} catch (e) {
+  // mock pro ambiente local
+  bGround = {
+    setupBackgroundApp: (app, myApp, dirname) => app.use('/', myApp) && app,
+    log: console.log
+  };
+}
+
 const myApp = require('./myApp');
 const express = require('express');
 const app = express();
@@ -22,14 +32,8 @@ if (!process.env.DISABLE_XORIGIN) {
 }
 
 const port = process.env.PORT || 3000;
-// bGround.setupBackgroundApp(app, myApp, __dirname).listen(port, () => {
-//   bGround.log(`Node is listening on port ${port}...`);
-// });
-
-// substitui pelo express "puro":
-app.use('/', myApp);
-app.listen(port, () => {
-  console.log(`Node is listening on port ${port}...`);
+bGround.setupBackgroundApp(app, myApp, __dirname).listen(port, () => {
+  bGround.log(`Node is listening on port ${port}...`);
 });
 
 /******************************************************
