@@ -1,3 +1,6 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
 let express = require('express');
 let app = express();
 import dotenv from "dotenv";
