@@ -1,11 +1,9 @@
-import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const require = createRequire(import.meta.url);
 
-let express = require('express');
+let express = import('express');
 let app = express();
 import dotenv from "dotenv";
 dotenv.config({path: "/.env" })
